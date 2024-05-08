@@ -3,3 +3,10 @@ const initialState = {
   loan: 0,
   loanPurpose: "",
 };
+
+function reducer(){
+  switch(action.type){
+    case "account/deposit":
+      return {...}
+  }
+}
