@@ -21,10 +21,10 @@ function reducer(state = initialState, action) {
         ...state,
         loan: action.payload.amount,
         loanPurpose: action.payload.loanPurpose,
-        balance:state.balance+action.payload.amount
+        balance: state.balance + action.payload.amount,
       };
 
-    case "account/payloan":
+    case "account/payLoan":
       return {
         ...state,
         loan: 0,
@@ -38,19 +38,49 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer); // we are creating the store here
 
-store.dispatch({ type: "account/deposit", payload: 1000 }); // this is same as we return dispatch function while calling useReducer hook
+// store.dispatch({ type: "account/deposit", payload: 1000 }); // this is same as we return dispatch function while calling useReducer hook
 
-console.log(store.getState()); //to get the current state of the store
+// console.log(store.getState()); //to get the current state of the store
 
-store.dispatch({ type: "account/withdraw", payload: 300 });
+// store.dispatch({ type: "account/withdraw", payload: 300 });
+// console.log(store.getState());
+
+// store.dispatch({
+//   type: "account/requestLoan",
+//   payload: { amount: 3000, loanPurpose: "buy a buggati 🚗" }, // passing an object for the very first time( pasing multiple pieces of data)
+// });
+// console.log(store.getState())
+
+// store.dispatch({type:"account/payloan"})
+
+// console.log(store.getState())
+
+//-----creaeting action creator-----
+
+function requestLoan(amount, loanPurpose) {
+  return {
+    type: "account/requestLoan",
+    payload: { amount, loanPurpose }, // passing an object for the very first time( pasing multiple pieces of data)
+  };
+}
+function deposit(amount) {
+  return { type: "account/deposit", payload: amount };
+}
+
+function withdraw(amount) {
+  return { type: "account/withdraw", payload: amount };
+}
+
+function payloan() {
+  return { type: "account/payLoan"};
+}
+
+store.dispatch(deposit(500));
+store.dispatch(withdraw(200));
 console.log(store.getState());
 
-store.dispatch({
-  type: "account/requestLoan",
-  payload: { amount: 3000, loanPurpose: "buy a buggati 🚗" }, // passing an object for the very first time( pasing multiple pieces of data)
-});
-console.log(store.getState())
+store.dispatch(requestLoan(1000, "buy a car"));
+console.log(store.getState());
 
-store.dispatch({type:"account/payloan"})
-
+store.dispatch(payloan())
 console.log(store.getState())
