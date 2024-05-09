@@ -4,7 +4,7 @@ const initialState = {
   loanPurpose: "",
 };
 
-function reducer(state = initialState, action) {
+function reducer(state = initialState, action) { // in redux wala reudcer we pass state as a default state in case we havent go
   switch (action.type) {
     case "account/deposit":
       return { ...state, balance: state.balance + action.payload };
@@ -23,7 +23,8 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         loan: 0,
-        balance: state.balance - action.payload,
+        balance: state.balance - state.loan,
+        loanPurpose:""
       };
     default:
       return state; // in reducer function in redux we retrun state not throw error like in useReducer function reducer
