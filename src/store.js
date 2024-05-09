@@ -1,12 +1,18 @@
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux"; //combining all the reducer to create root reducer;
 
-const initialState = {
+const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
 };
 
-function reducer(state = initialState, action) {
+const initialStateCustomer = {
+  fullName: "",
+  natioanlID: "",
+  createdAt: "",
+};
+
+function accountReducer(state = initialStateAccount, action) {
   // in redux wala reudcer we pass state as a default state in case we havent go
   switch (action.type) {
     case "account/deposit":
@@ -36,7 +42,29 @@ function reducer(state = initialState, action) {
   }
 }
 
-const store = createStore(reducer); // we are creating the store here
+function costumerReducer(state = initialStateCustomer, action) {
+  switch (action.type) {
+    case "costumer/createCostumer":
+      return {
+        ...state,
+        fullName: action.payload.fullName,
+        natioanlID: action.payload.natioanlID,
+        createdAt: action.payload.createdAt,
+      };
+
+    case "costumer/updateName":
+      return { ...state, fullName: action.payload };
+
+    default:
+      return state;
+  }
+}
+const rootReducer = combineReducers({
+  account: accountReducer, // giving reducer a meaningfull name
+  costumer: costumerReducer,
+});
+
+const store = createStore(rootReducer); // we are creating the store here and the reducer store receives are always called root reducers
 
 // store.dispatch({ type: "account/deposit", payload: 1000 }); // this is same as we return dispatch function while calling useReducer hook
 
@@ -72,7 +100,7 @@ function withdraw(amount) {
 }
 
 function payloan() {
-  return { type: "account/payLoan"};
+  return { type: "account/payLoan" };
 }
 
 store.dispatch(deposit(500));
@@ -82,5 +110,24 @@ console.log(store.getState());
 store.dispatch(requestLoan(1000, "buy a car"));
 console.log(store.getState());
 
-store.dispatch(payloan())
-console.log(store.getState())
+store.dispatch(payloan());
+console.log(store.getState());
+
+// Costumer action creator
+function createCostumer(fullName, natioanlID) {
+  return {
+    type: "costumer/createCostumer",
+    payload: {
+      fullName,
+      natioanlID,
+      createdAt: new Date().toISOString(), // we can do this in reduecr function but it will be side effect in reducer function(bcoz they are pure function) so do that here not in reudcer function
+    },
+  };
+}
+
+function updateName(fullName) {
+  return {
+    type: "costumer/updateName",
+    payload: fullName,
+  };
+}
