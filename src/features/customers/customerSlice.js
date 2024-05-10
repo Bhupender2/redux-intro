@@ -2,23 +2,23 @@
 
 const initialStateCustomer = {
   fullName: "",
-  natioanlID: "",
+  nationalID: "",
   createdAt: "",
 };
 
 // Costumer reducer
 
-export default function costumerReducer(state = initialStateCustomer, action) {
+export default function customerReducer(state = initialStateCustomer, action) {
   switch (action.type) {
-    case "costumer/createCostumer":
+    case "customer/createCustomer":
       return {
         ...state,
         fullName: action.payload.fullName,
-        natioanlID: action.payload.natioanlID,
+        nationalID: action.payload.nationalID,
         createdAt: action.payload.createdAt,
       };
 
-    case "costumer/updateName":
+    case "customer/updateName":
       return { ...state, fullName: action.payload };
 
     default:
@@ -27,12 +27,12 @@ export default function costumerReducer(state = initialStateCustomer, action) {
 }
 
 // Costumer action creator
-export function createCostumer(fullName, natioanlID) {
+export function createCustomer(fullName, nationalID) {
   return {
-    type: "costumer/createCostumer",
+    type: "customer/createCustomer",
     payload: {
       fullName,
-      natioanlID,
+      nationalID,
       createdAt: new Date().toISOString(), // we can do this in reducerr function but it will be side effect in reducer function(bcoz they are pure function) so do that here not in reudcer function
     },
   };
@@ -40,7 +40,7 @@ export function createCostumer(fullName, natioanlID) {
 
 export function updateName(fullName) {
   return {
-    type: "costumer/updateName",
+    type: "customer/updateName",
     payload: fullName,
   };
 }
