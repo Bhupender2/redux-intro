@@ -1,5 +1,5 @@
 import CreateCustomer from "../src/features/costumers/CreateCustomer"
-import Customer from "../src/features/costumers/CreateCustomer";
+import Customer from "../src/features/costumers/Customer"
 import AccountOperations from "../src/features/accounts/AccountOperations"
 import BalanceDisplay from "../src/features/accounts/BalanceDisplay"
 

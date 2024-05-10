@@ -8,3 +8,5 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(rootReducer); // we are creating the store here and the reducer store receives are always called root reducers
+
+export default store  // importing the store in our application
