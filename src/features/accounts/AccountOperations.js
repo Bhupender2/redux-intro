@@ -28,12 +28,12 @@ function AccountOperations() {
   function handleRequestLoan() {
     if (!loanAmount || !loanPurpose) return;
     dispatch(requestLoan(loanAmount, loanPurpose));
-    setLoanAmount("")
-    setLoanPurpose("")
+    setLoanAmount("");
+    setLoanPurpose("");
   }
 
   function handlePayLoan() {
-    dispatch(payloan())
+    dispatch(payloan());
   }
 
   return (
