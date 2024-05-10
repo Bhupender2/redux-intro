@@ -120,7 +120,7 @@ function createCostumer(fullName, natioanlID) {
     payload: {
       fullName,
       natioanlID,
-      createdAt: new Date().toISOString(), // we can do this in reduecr function but it will be side effect in reducer function(bcoz they are pure function) so do that here not in reudcer function
+      createdAt: new Date().toISOString(), // we can do this in reducerr function but it will be side effect in reducer function(bcoz they are pure function) so do that here not in reudcer function
     },
   };
 }
@@ -131,3 +131,11 @@ function updateName(fullName) {
     payload: fullName,
   };
 }
+
+store.dispatch(createCostumer("bhupender singh mehta", "234344")) // we are dispatching the action here
+
+console.log(store.getState())
+
+store.dispatch(updateName("benny"))
+
+console.log(store.getState())
