@@ -2,13 +2,14 @@ import { createStore, combineReducers, applyMiddleware } from "redux"; //combini
 import accountReducer from "./features/accounts/accountSlice";
 import costumerReducer from "./features/customers/customerSlice";
 import { thunk } from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
   account: accountReducer, // giving reducer a meaningfull name
   customer: costumerReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk)); // we are creating the store here and the reducer store receives are always called root reducers
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); // we are creating the store here and the reducer store receives are always called root reducers
 
 export default store; // importing the store in our application
 
