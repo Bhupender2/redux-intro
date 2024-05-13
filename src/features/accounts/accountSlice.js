@@ -4,6 +4,7 @@ const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
+  isLoading: false,
 };
 
 //REDUCER
@@ -12,7 +13,7 @@ export default function accountReducer(state = initialStateAccount, action) {
   // in redux wala reudcer we pass state as a default state in case we havent go
   switch (action.type) {
     case "account/deposit":
-      return { ...state, balance: state.balance + action.payload };
+      return { ...state, balance: state.balance + action.payload , isLoading:false};
 
     case "account/withdraw":
       return { ...state, balance: state.balance - action.payload };
@@ -24,6 +25,11 @@ export default function accountReducer(state = initialStateAccount, action) {
         loan: action.payload.amount,
         loanPurpose: action.payload.loanPurpose,
         balance: state.balance + action.payload.amount,
+      };
+    case "account/convertingCurrency":
+      return {
+        ...state,
+        isLoading: true,
       };
 
     case "account/payLoan":
@@ -43,13 +49,15 @@ export default function accountReducer(state = initialStateAccount, action) {
 export function requestLoan(amount, loanPurpose) {
   return {
     type: "account/requestLoan",
-    payload: { amount, loanPurpose }, // passing an object for the very first time( pasing multiple pieces of data)
+    payload: { amount, loanPurpose }, // passing an object for the very first time( passing multiple pieces of data)
   };
 }
 export function deposit(amount, currency) {
   if (currency === "USD") return { type: "account/deposit", payload: amount };
 
   return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
+
     const res = await fetch(
       `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
     );
