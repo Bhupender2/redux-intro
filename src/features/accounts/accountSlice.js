@@ -2,7 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState= {
+const initialState = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
@@ -22,16 +22,27 @@ const accountSlice = createSlice({
     withdraw(state, action) {
       state.balance -= action.payload;
     },
-    requestLoan(state, action) {
-      if (state.loan > 0) return; //in createslice we only returned the modified data not the whole state if there is nothing to return we return nothing.
-      state.loan = action.payload.amount;
-      state.loanPurpose = action.payload.loanPurpose;
-      state.balance += action.payload.amount;
+    requestLoan: {
+      prepare(amount, purpose) {
+        // we use prepare function to whenever we want to accept the default action creator two argument because it doesnt take two argument so we prepare the data before reaching it to the reducer and then return the payload which will be used by reducer aftewords
+        return {
+          payload: {
+            amount,
+            purpose,
+          },
+        };
+      },
+      reducer(state, action) {
+        if (state.loan > 0) return; //in createslice we only returned the modified data not the whole state if there is nothing to return we return nothing.
+        state.loan = action.payload.amount;
+        state.loanPurpose = action.payload.purpose;
+        state.balance += action.payload.amount;
+      },
     },
-    payLoan(state, action) {
-      state.loan = 0;
+    payLoan(state) {
+      state.balance -= state.loan;
       state.loanPurpose = "";
-      state.balance -= action.payload;
+      state.loan = 0;
     },
   },
 });
