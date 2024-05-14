@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  balance: 0,
+  balance: 0, 
   loan: 0,
   loanPurpose: "",
   isLoading: false,
@@ -24,7 +24,7 @@ const accountSlice = createSlice({
       state.balance -= action.payload;
     },
     requestLoan: {
-      prepare(amount, purpose) {
+      prepare(amount, purpose) {//ist the prepare method that will recieve the data we pass in action creator remember that
         // we use prepare function to whenever we want to accept the default action creator two argument because it doesnt take two argument so we prepare the data before reaching it to the reducer and then return the payload which will be used by reducer aftewords
         return {
           payload: {
