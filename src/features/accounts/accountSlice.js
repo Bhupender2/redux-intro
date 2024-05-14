@@ -18,6 +18,7 @@ const accountSlice = createSlice({
   reducers: {
     deposit(state, action) {
       state.balance += action.payload;
+      state.isLoading=false;
     },
     withdraw(state, action) {
       state.balance -= action.payload;
@@ -44,12 +45,16 @@ const accountSlice = createSlice({
       state.loanPurpose = "";
       state.loan = 0;
     },
+    convertingCurrency(state){
+      state.isLoading=true;
+    }
+
   },
 });
 
 export const { withdraw, requestLoan, payLoan } = accountSlice.actions;
 
-export function deposit(amount, currency) {  //redux is smart enough to understand that this is our action creator that we manually created but obviously its name shoule be created
+export function deposit(amount, currency) {  //redux is smart enough to understand that this is our action creator that we manually created but obviously its name shoule be created (instead of using createAsyncThunk we manually made a function and we can do that and redux will recognised it as a thunk middle becuase action creator  dispatches a function instead of actions )
   if (currency === "USD") return { type: "account/deposit", payload: amount };
 
   return async function (dispatch, getState) {
