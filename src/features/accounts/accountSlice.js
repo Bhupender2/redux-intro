@@ -47,7 +47,23 @@ const accountSlice = createSlice({
   },
 });
 
-export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
+export const { withdraw, requestLoan, payLoan } = accountSlice.actions;
+
+export function deposit(amount, currency) {  //redux is smart enough to understand that this is our action creator that we manually created but obviously its name shoule be created
+  if (currency === "USD") return { type: "account/deposit", payload: amount };
+
+  return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
+
+    const res = await fetch(
+      `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
+    );
+    const data = await res.json();
+    const converted = data.rates.USD;
+
+    dispatch({ type: "account/deposit", payload: converted });
+  };
+}
 
 export default accountSlice.reducer;
 
@@ -92,21 +108,6 @@ export default accountSlice.reducer;
 //   return {
 //     type: "account/requestLoan",
 //     payload: { amount, loanPurpose }, // passing an object for the very first time( passing multiple pieces of data)
-//   };
-// }
-// export function deposit(amount, currency) {
-//   if (currency === "USD") return { type: "account/deposit", payload: amount };
-
-//   return async function (dispatch, getState) {
-//     dispatch({ type: "account/convertingCurrency" });
-
-//     const res = await fetch(
-//       `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
-//     );
-//     const data = await res.json();
-//     const converted = data.rates.USD;
-
-//     dispatch({ type: "account/deposit", payload: converted });
 //   };
 // }
 
